@@ -1,0 +1,7 @@
+__pycache__/
+.idea/
+venv/
+NewDataset
+3x64x2-CNN.model
+64x2-CNN.model
+3x128x1-CNN.model
