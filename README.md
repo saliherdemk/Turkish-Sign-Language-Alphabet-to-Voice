@@ -6,6 +6,9 @@ You can make a sentences and make it talk.
 # Demo
 <img src="https://github.com/saliherdemk/Turkish-Sign-Language-Alphabet-to-Voice/blob/master/media/demo.gif" width="450" height="355">
 
+# Article (Turkish)
+[Turkish Article](https://drive.google.com/file/d/1w7vMpXj_KUjqeKczWPqj6jAhSdFLQhUA/view)
+
 # Requirements
 ```
 pip install -r requirements.txt
