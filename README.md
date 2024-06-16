@@ -70,4 +70,4 @@ Also you can create your own dataset with collectImg.py file. Once you done that
 
 # pyttsx3
 
-If you want to use Turkish voice, you have to follow [this](https://github.com/nateshmbhat/pyttsx3/issues/25#issuecomment-601512309) steps on Windows. ([Alternative Turkish resource]([this](https://forum.yazbel.com/t/pyttsx3-voice-hatasi-turkce-seslendirme-yapamiyorum/4299/2)))
+If you want to use Turkish voice, you have to follow [this](https://github.com/nateshmbhat/pyttsx3/issues/25#issuecomment-601512309) steps on Windows. ([Alternative Turkish resource](https://forum.yazbel.com/t/pyttsx3-voice-hatasi-turkce-seslendirme-yapamiyorum/4299/2))
