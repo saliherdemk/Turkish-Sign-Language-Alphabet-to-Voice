@@ -11,8 +11,12 @@ import pyttsx3
 import threading
 
 engine = pyttsx3.init()
-engine.setProperty("rate", 170)
+engine.setProperty("rate", 170) # speed
 voices = engine.getProperty('voices')
+
+# for voice in voices:
+#   print(voice)
+
 engine.setProperty('voice', voices[1].id) # Turkish
 
 def speak(text):
@@ -31,6 +35,8 @@ test_model = tf.keras.models.load_model("Models/3x128x1-CNN.keras")
 TEST_CATEGORIES = ["A","B","Bosluk","C","D","E","F","G","H","I","K","L","M","N","Nokta","O","P","R","S","Sil","T","U","V","Y","Z"]
 
 cap = cv2.VideoCapture(0)
+
+THRESHOLD = 10
 
 with mp_hands.Hands(
     model_complexity=0,
@@ -108,30 +114,26 @@ with mp_hands.Hands(
           if(predicted_char == "Bosluk"):
             char = " "
 
-          if(char == "Nokta"):
+          elif(predicted_char == "Nokta"):
             char = "."
 
-          if (old_char ==  char):
-            count_same_text += 1
-          else:
-            count_same_text = 0
+          count_same_text += int(old_char == char)
 
-          print(count_same_text)
-          if(count_same_text > 10):
+          if(count_same_text > THRESHOLD):
             old_text = char
 
             if(char == "Sil"):
               word = word[:-1]
+            elif(char == "."):
+              threading.Thread(target=speak, args=(word,)).start()
+              word = ""
             else:
               word = word + char
 
-            if(char == "."):
-              threading.Thread(target=speak, args=(word,)).start()
-              word = ""
             count_same_text = 0
 
           frame = cv2.putText(frame, predicted_char, (roi_x, roi_y - 5),  fontFace = cv2.FONT_HERSHEY_TRIPLEX, fontScale = 2, color = (0, 0, 0),thickness= 4)
-          cv2.imshow("asd",fin)
+          cv2.imshow("Capture", fin)
         except Exception as ep:
           print(ep)
 

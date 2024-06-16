@@ -3,15 +3,15 @@ import time
 
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
-from tensorflow.python.keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
 
 # Different models were tried and the best model was found with the help of Tensorboard
 # https://www.youtube.com/watch?v=BqgTU7_cBnk
 def find_optimum_model():
 
-    dense_layers = [2]
-    layer_sizes = [128]
-    conv_layers = [3]
+    dense_layers = [0, 1, 2]
+    layer_sizes = [32, 64, 128]
+    conv_layers = [1, 2, 3]
 
     pickle_in = open("Stored/train_X.pickle", "rb")
     train_x = pickle.load(pickle_in)
@@ -25,7 +25,7 @@ def find_optimum_model():
         for layer_size in layer_sizes:
             for conv_layer in conv_layers:
                 name = "{}-conv-{}-nodes-{}-dense-{}".format(conv_layer,layer_size,dense_layer,int(time.time()))
-                tensorboard = TensorBoard(log_dir="logs/{}".format(name))
+                tensorboard = TensorBoard(log_dir="logs\{}".format(name)) # If you get an error, make sure this path is not include any non-english character
 
                 model = Sequential()
 
