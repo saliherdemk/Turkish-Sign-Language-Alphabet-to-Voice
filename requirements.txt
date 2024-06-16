@@ -1,7 +1,7 @@
-opencv-python==4.5.5.64
-matplotlib==3.5.1
-tensorflow==2.8.0
-numpy==1.22.3
-mediapipe==0.8.10
+opencv-python==4.10.0.82
+matplotlib==3.9.0
+tensorflow==2.16.1
+numpy==1.26.4
+mediapipe==0.10.14
 pyttsx3==2.90
-tensorboard==2.8.0
+tensorboard==2.16.2

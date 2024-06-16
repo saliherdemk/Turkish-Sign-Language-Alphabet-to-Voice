@@ -26,7 +26,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
-test_model = tf.keras.models.load_model("3x128x1-CNN.model")
+test_model = tf.keras.models.load_model("Models/3x128x1-CNN.keras")
 
 TEST_CATEGORIES = ["A","B","Bosluk","C","D","E","F","G","H","I","K","L","M","N","Nokta","O","P","R","S","Sil","T","U","V","Y","Z"]
 

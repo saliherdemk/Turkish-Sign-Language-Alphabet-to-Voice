@@ -1,7 +1,8 @@
 import pickle
 import time
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Flatten, Conv2D,MaxPooling2D
+
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from tensorflow.python.keras.callbacks import TensorBoard
 
 # Different models were tried and the best model was found with the help of Tensorboard
@@ -28,13 +29,13 @@ def find_optimum_model():
 
                 model = Sequential()
 
-                for l in range(conv_layer):
+                for _ in range(conv_layer):
                     model.add(Conv2D(filters=layer_size, kernel_size=(3, 3), input_shape=train_x.shape[1:], activation="relu"))
                     model.add(MaxPooling2D(pool_size=(2, 2)))
 
                 model.add(Flatten())
 
-                for i in range(dense_layer):
+                for _ in range(dense_layer):
                     model.add(Dense(layer_size, activation="relu"))
 
                 model.add(Dense(25, activation="softmax"))

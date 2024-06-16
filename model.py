@@ -1,6 +1,6 @@
 import pickle
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Flatten, Conv2D,MaxPooling2D
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 
 def model_run():
     pickle_in = open("Stored/train_X.pickle", "rb")
@@ -30,9 +30,9 @@ def model_run():
 
     model.compile(loss="sparse_categorical_crossentropy", optimizer="Adam", metrics=['accuracy'])
 
-    model.fit(train_x, train_y, batch_size=32, epochs=5, validation_split=0.1,shuffle=True)
+    model.fit(train_x, train_y, batch_size=32, epochs=1, validation_split=0.1,shuffle=True)
 
-    model.save('3x128x1-CNN.model')
+    model.save('Models/3x128x1-CNN.keras')
 
 if(__name__ == "__main__"):
     model_run()
