@@ -2,47 +2,25 @@ import os
 import cv2
 import numpy as np
 import pickle
+from LETTERS import LETTERS
 
-DATADIR = "./NewDataset"
+from pathlib import Path
 
-CATEGORIES = [
-    "A",
-    "B",
-    "Bosluk",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "K",
-    "L",
-    "M",
-    "N",
-    "Nokta",
-    "O",
-    "P",
-    "R",
-    "S",
-    "Sil",
-    "T",
-    "U",
-    "V",
-    "Y",
-    "Z",
-]
+DATADIR = "NewDataset"
 
 IMG_SIZE = 64
+
+DIRECTORY = Path("Stored")
+DIRECTORY.mkdir(parents=True, exist_ok=True)
 
 train_data = []
 
 
 def create_train_data():
     i = 0
-    for category in CATEGORIES:
+    for category in LETTERS:
         path = os.path.join(DATADIR, category)
-        class_num = CATEGORIES.index(category)
+        class_num = LETTERS.index(category)
         for img in os.listdir(path):
             try:
                 img_array = cv2.imread(os.path.join(path, img))
@@ -54,7 +32,7 @@ def create_train_data():
             except:
                 print("broken")
         i += 1
-        print(i, len(CATEGORIES), sep=" / ")
+        print(i, len(LETTERS), sep=" / ")
     print(len(train_data))
 
     np.random.shuffle(train_data)
@@ -69,11 +47,11 @@ def create_train_data():
     X = np.array(X).reshape(-1, IMG_SIZE, IMG_SIZE, 1)
     Y = np.array(Y)
 
-    pickle_out = open("Stored/train_X.pickle", "wb")
+    pickle_out = open(os.path.join(DIRECTORY, "train_X.pickle"), "wb")
     pickle.dump(X, pickle_out)
     pickle_out.close()
 
-    pickle_out = open("Stored/train_Y.pickle", "wb")
+    pickle_out = open(os.path.join(DIRECTORY, "train_Y.pickle"), "wb")
     pickle.dump(Y, pickle_out)
     pickle_out.close()
 

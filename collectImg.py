@@ -2,18 +2,28 @@ import cv2
 import mediapipe as mp
 import os
 import glob
+import time
+
+from LETTERS import LETTERS
 
 from pathlib import Path
+
 
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
 IMAGES_PATH = "NewDataset"
-CURRENT_LETTER = "B"
 
-LETTER_PATH = Path(IMAGES_PATH) / CURRENT_LETTER
-LETTER_PATH.mkdir(parents=True, exist_ok=True)
+settings = {
+    "current_letter_index": 0,
+    "latest_file_index": 0,
+    "letter_path": Path(IMAGES_PATH) / LETTERS[0],
+}
+
+for letter in LETTERS:
+    LETTER_PATH = Path(IMAGES_PATH) / letter
+    LETTER_PATH.mkdir(parents=True, exist_ok=True)
 
 
 def get_latest_file(path):
@@ -25,9 +35,26 @@ def get_latest_file(path):
     return int(Path(latest_file).stem)
 
 
-latest_file_index = get_latest_file(LETTER_PATH)
-
 i = 0
+LETTER_COUNT = 2
+
+
+def change_letter():
+    settings["current_letter_index"] += 1
+
+    if settings["current_letter_index"] > len(LETTERS) - 1:
+        return True
+
+    LETTER_PATH = Path(IMAGES_PATH) / LETTERS[settings["current_letter_index"]]
+    LETTER_PATH.mkdir(parents=True, exist_ok=True)
+    settings["letter_path"] = LETTER_PATH
+
+    settings["latest_file_index"] = get_latest_file(LETTER_PATH)
+    for i in range(3, 0, -1):
+        print(f"Changing letter in {i} seconds...")
+        time.sleep(1)
+    return False
+
 
 cap = cv2.VideoCapture(0)
 with mp_hands.Hands(
@@ -85,18 +112,24 @@ with mp_hands.Hands(
 
                 i += 1
                 if i % 2 == 0:
+                    filename = str(settings["latest_file_index"] + int(i / 2))
                     cv2.imwrite(
                         os.path.join(
-                            LETTER_PATH, str(latest_file_index + int(i / 2)) + ".png"
+                            settings["letter_path"],
+                            filename + ".png",
                         ),
                         roi,
                     )
+                    print(f"{filename}.png Saved to {settings["letter_path"]}")
 
-                print(i)
-                if cv2.waitKey(1) == ord("q") or i > 400:
-                    break
+                if cv2.waitKey(1) == ord("q") or i > LETTER_COUNT:
+                    is_final_letter = change_letter()
+                    i = 0
+                    if is_final_letter:
+                        break
 
-            except:
+            except Exception as e:
+                print("An error occurred:", e)
                 print("no hands | broken")
 
         cv2.imshow("MediaPipe Hands", image)
